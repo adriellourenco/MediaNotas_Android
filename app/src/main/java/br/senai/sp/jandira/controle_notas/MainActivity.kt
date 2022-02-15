@@ -7,6 +7,10 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 
+private lateinit var nota1EditText: EditText
+private lateinit var nota2EditText: EditText
+private lateinit var nomeUsuarioEditText: EditText
+
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -14,36 +18,70 @@ class MainActivity : AppCompatActivity() {
 
         val calcular = findViewById<Button>(R.id.calcular)
         val sair = findViewById<Button>(R.id.sair)
-
-        sair.setOnClickListener(){
+        sair.setOnClickListener() {
             finish()
         }
 
-        calcular.setOnClickListener(){
-            val nota1 = findViewById<EditText>(R.id.nota1).text.toString().toInt()
-            val nota2 = findViewById<EditText>(R.id.nota2).text.toString().toInt()
-            val faltas = findViewById<EditText>(R.id.faltas).text.toString().toInt()
-            val tabelaValores = findViewById<TextView>(R.id.tabelaValores)
-            val resultadoAprovado = "Aprovado!"
-            val resultadoReprovado = "Reprovado!"
-            val media = (nota1 + nota2) / 2
+        calcular.setOnClickListener() {
 
-            if (media >= 5){
-                tabelaValores.text = "Nota 1: " +nota1 + "\n" +
-                        "Nota 2: " +nota2 + "\n" +
-                        "Faltas: " +faltas + "\n" +
-                        "Média: " +media + "\n" +
-                        "Situação: " +resultadoAprovado
-                //resultado.setTextColor(Color.RED)
+            nota1EditText = findViewById(R.id.nota1)
+            nota2EditText = findViewById(R.id.nota2)
+            nomeUsuarioEditText = findViewById(R.id.nomeUsuario)
 
-            } else{
-                tabelaValores.text = "Nota 1: " +nota1 + "\n" +
-                        "Nota 2: " +nota2 + "\n" +
-                        "Faltas: " +faltas + "\n" +
-                        "Média: " +media + "\n" +
-                        "Situação: " + resultadoReprovado
-                //resultado.setTextColor(Color.RED)
+            if (validarCampos()) {
+
+                val nota1 = nota1EditText.text.toString().toInt()
+                val nota2 = nota2EditText.text.toString().toInt()
+                val nomeUsuario = nomeUsuarioEditText.text.toString()
+                val tabelaValoresTextView = findViewById<TextView>(R.id.tabelaValores)
+
+                val media = calcularMedia(nota1, nota2)
+
+                tabelaValoresTextView.text = situacaoAluno(media)
+
+//                if (media >= 5) {
+//                    tabelaValoresTextView.text = "Nome: " +nomeUsuario + "\n" +
+//                            "Nota 1: " + nota1 + "\n" +
+//                            "Nota 2: " + nota2 + "\n" +
+//                            "Média: " + media + "\n" +
+//                            "Situação: " + "Aprovado"
+//
+//                } else {
+//                    tabelaValoresTextView.text = "Nome: " +nomeUsuario +
+//                            "Nota 1: " + nota1 + "\n" +
+//                            "Nota 2: " + nota2 + "\n" +
+//                            "Média: " + media + "\n"  +
+//                            "Situação: " + "Reprovado"
+//
+//                }
+
             }
+
         }
+
     }
+
+
+    private fun validarCampos(): Boolean {
+        var noError = true
+
+        if (nota1EditText.text.isBlank()){
+            nota1EditText.setError("Digite a nota 1")
+            noError = false
+        }
+
+        if (nota2EditText.text.isBlank()){
+            nota2EditText.setError("Digite a nota 2")
+            noError = false
+        }
+
+        if (nomeUsuarioEditText.text.isBlank()){
+            nomeUsuarioEditText.setError("Digite seu nome")
+            noError = false
+        }
+
+        return noError
+    }
+
 }
+
