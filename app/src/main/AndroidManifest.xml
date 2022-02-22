@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Controlenotas">
         <activity
+            android:name=".ResultadoActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity"
+            android:launchMode="singleTop"
+            />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

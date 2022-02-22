@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.controle_notas
 
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -34,10 +35,17 @@ class MainActivity : AppCompatActivity() {
                 val nota2 = nota2EditText.text.toString().toInt()
                 val nomeUsuario = nomeUsuarioEditText.text.toString()
                 val tabelaValoresTextView = findViewById<TextView>(R.id.tabelaValores)
-
                 val media = calcularMedia(nota1, nota2)
-
                 tabelaValoresTextView.text = situacaoAluno(media)
+
+                val intent = Intent(this, ResultadoActivity::class.java)
+                intent.putExtra( "nome", nomeUsuarioEditText.text.toString())
+                intent.putExtra("nota1", nota1.toString())
+                intent.putExtra("nota2", nota2.toString())
+                intent.putExtra("media", media.toString())
+                intent.putExtra("situacao", situacaoAluno(media))
+                startActivity(intent)
+
 
 //                if (media >= 5) {
 //                    tabelaValoresTextView.text = "Nome: " +nomeUsuario + "\n" +
